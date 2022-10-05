@@ -25,10 +25,25 @@ const readFile = async () => {
       console.log(err.message);
     }
   };
-
+  
   const getTalkers = async () => {
     const TalkersReturn = await readFile();
     return TalkersReturn;
   };
 
-module.exports = { getTalkers, writeTalkerFile };
+  const putTalkerFile = async (newPerson, id) => {
+    try {
+      const talkers = await readFile();
+      const find = talkers.findIndex((t) => t.id === Number(id));
+      const edit = talkers.find((t) => t.id === Number(id));
+      const modified = { ...edit, ...newPerson };
+      talkers.splice(find, 1, modified);
+
+      await fs.writeFile(talkerFile, JSON.stringify(talkers));
+      return talkers;
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+module.exports = { getTalkers, writeTalkerFile, putTalkerFile };
