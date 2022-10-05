@@ -13,9 +13,22 @@ const readFile = async () => {
     }
   };
 
+  const writeTalkerFile = async (newTalker) => {
+    try {
+      const talkers = await readFile();
+      const newId = talkers[talkers.length - 1].id + 1;
+      const newObj = { id: newId, ...newTalker };
+      const newArr = JSON.stringify([...talkers, newObj]);
+
+      await fs.writeFile(talkerFile, newArr);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const getTalkers = async () => {
     const TalkersReturn = await readFile();
     return TalkersReturn;
   };
 
-module.exports = { getTalkers };
+module.exports = { getTalkers, writeTalkerFile };
