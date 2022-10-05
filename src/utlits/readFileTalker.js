@@ -60,4 +60,21 @@ const readFile = async () => {
     }
   };
 
-module.exports = { getTalkers, writeTalkerFile, putTalkerFile, deteleTalker };
+  const searchTalker = async (q) => {
+    try {
+      const talkers = await readFile();
+  
+      const filteredActivities = talkers.filter((t) => t.name.includes(q));
+      return filteredActivities;
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+module.exports = {
+  getTalkers,
+  writeTalkerFile,
+  putTalkerFile,
+  deteleTalker,
+  searchTalker,
+};
