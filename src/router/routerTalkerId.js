@@ -3,7 +3,7 @@ const talker = require('../talker.json');
 
 const router = express.Router();
 
-const { putTalkerFile } = require('../utlits/readFileTalker');
+const { putTalkerFile, deteleTalker } = require('../utlits/readFileTalker');
 const validateTalk = require('../middlewares/validateTalk');
 const validateName = require('../middlewares/validateName');
 const validateWatchedAs = require('../middlewares/validateWatchedAt');
@@ -34,6 +34,12 @@ validateAge,
     const { id } = req.params;
     const modified = await putTalkerFile(req.body, id);
     res.status(200).json(modified[modified.length - 1]);
+});
+
+router.delete('/talker/:id', validateAuthorization, async (req, res) => {
+    const { id } = req.params;
+    await deteleTalker(id);
+    res.sendStatus(204);
 });
 
 module.exports = router;

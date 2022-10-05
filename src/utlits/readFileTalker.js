@@ -46,4 +46,18 @@ const readFile = async () => {
     }
   };
 
-module.exports = { getTalkers, writeTalkerFile, putTalkerFile };
+  const deteleTalker = async (id) => {
+    try {
+      const talkers = await readFile();
+      const find = talkers.find((t) => t.id === Number(id));
+      const deleteTalker = talkers.indexOf(find);
+      talkers.splice(deleteTalker, 1);
+
+      await fs.writeFile(talkerFile, JSON.stringify(talkers));
+      return talkers;
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+module.exports = { getTalkers, writeTalkerFile, putTalkerFile, deteleTalker };
